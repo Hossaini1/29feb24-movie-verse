@@ -1,11 +1,18 @@
 import { useState } from 'react'
+
 import {Col,Row, Image} from 'react-bootstrap'
 import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
 import Img from './assets/image/the-movie-verse.png'
+import avengersData from './moviesData';
+
+import Card from 'react-bootstrap/Card';
+import { RiHeartAddLine } from "react-icons/ri";
 
 function App() {
-  
+
+  console.log(avengersData);
+
   return (
     <>
     {/* Navbar */}
@@ -14,8 +21,8 @@ function App() {
         <Navbar.Brand href="#">🌐 Movie-Verve</Navbar.Brand>
       </Container>
     </Navbar>
-
     <Container>
+
       {/* Hero section 1 */}
     <Col className='d-flex pt-5 align-items-center '>
     <Row>
@@ -26,10 +33,49 @@ function App() {
       <Image src={Img} alt='Hero image' />
     </Row>
     </Col>
-    </Container>
 
 
     {/* Hero section 2 */}
+    <div className='row d-flex align-items-center mt-4 '>
+      <div className='col'>
+        <h2>MOVIE LIST:</h2>
+      </div>
+      <div className='col'>
+        <input 
+        type="text"
+        placeholder='Search a movie...'
+        className='form-control'
+         />
+      </div>
+    </div>
+
+    <div className='row nowrap '>
+        {
+      avengersData.map( (movie) =>{
+        return (
+          <Card className='pt-3 m-3' key={movie.imdbID} style={{ width: '18rem' }}>
+          <Card.Img variant="top" src={movie.Poster} />
+          <Card.Body className='d-flex align-items-center justify-content-between' >
+            <Card.Title>{movie.Title} ({movie.Year})</Card.Title>
+            <RiHeartAddLine className='like-icon'/>
+          </Card.Body>
+        </Card>
+        );
+
+      })
+
+      
+    }
+    </div>
+
+  
+
+
+
+    </Container>
+
+
+    
 
 
      
