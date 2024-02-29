@@ -9,9 +9,9 @@ import Card from "react-bootstrap/Card";
 import { RiHeartAddLine } from "react-icons/ri";
 
 function App() {
-  
   const [movies, setMovies] = useState([]);
   const [searchValue, setSearchValue] = useState("");
+  const [favorites, setFavorites] = useState([]);
 
   const getMovieRequest = async (searchValue) => {
     const url = `http://www.omdbapi.com/?s=${searchValue}&apikey=${
@@ -36,6 +36,14 @@ function App() {
   useEffect(() => {
     getMovieRequest(searchValue);
   }, [searchValue]);
+
+  const addToFavorites = (value) => {
+    // console.log(value);
+    const newFavorites = [...favorites, value];
+    setFavorites(newFavorites);
+  };
+
+  console.log("favoriteeeeeee", favorites);
 
   return (
     <>
@@ -88,7 +96,40 @@ function App() {
                   <Card.Title>
                     {movie.Title} ({movie.Year})
                   </Card.Title>
-                  <RiHeartAddLine className="like-icon" />
+                  <RiHeartAddLine
+                    onClick={() => addToFavorites(movie)}
+                    className="like-icon"
+                  />
+                </Card.Body>
+              </Card>
+            );
+          })}
+        </div>
+
+        {/* Favorite list section */}
+        <div className="row d-flex align-items-center mt-4 ">
+          <div className="col">
+            <h2>Favorites Movies:</h2>
+          </div>
+          
+        </div>
+        <div className="row nowrap ">
+          {favorites.map((movie) => {
+            return (
+              <Card
+                className="pt-3 m-3"
+                key={movie.imdbID}
+                style={{ width: "18rem" }}
+              >
+                <Card.Img variant="top" src={movie.Poster} />
+                <Card.Body className="d-flex align-items-center justify-content-between">
+                  <Card.Title>
+                    {movie.Title} ({movie.Year})
+                  </Card.Title>
+                  <RiHeartAddLine
+                    onClick={() => addToFavorites(movie)}
+                    className="like-icon"
+                  />
                 </Card.Body>
               </Card>
             );
