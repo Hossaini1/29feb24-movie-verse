@@ -24,7 +24,7 @@
 }
 
 .like-icon{
- fill: var(--text-red);
+ color: var(--text-red);
  font-size: 2rem;
  cursor: pointer;
  transition: transform 0.5s;

@@ -3,6 +3,8 @@ import { Col, Row, Image } from "react-bootstrap";
 import Container from "react-bootstrap/Container";
 import Navbar from "react-bootstrap/Navbar";
 import Img from "./assets/image/the-movie-verse.png";
+import { TbHeartMinus } from "react-icons/tb";
+
 // import avengersData from './moviesData';
 
 import Card from "react-bootstrap/Card";
@@ -37,13 +39,36 @@ function App() {
     getMovieRequest(searchValue);
   }, [searchValue]);
 
+  useEffect(() => {
+    // LADEN aus localStorage unter der name "favorite-movies" und in favoriteMovies speichern
+    const favoriteMovies = JSON.parse(localStorage.getItem("favorite-movies"));
+
+    if (favoriteMovies) {
+      setFavorites(favoriteMovies);
+    }
+  }, []);
+
+  // SPICHERN in localStorage unter der name "favorite-movies"
+  const saveToLocalStorage = (items) => {
+    localStorage.setItem("favorite-movies", JSON.stringify(items));
+  };
+
+  // FAVORITEN entfernen mit filter methode
+  const removeFavoriteMovie = (movie) => {
+    const newFavoriteList = favorites.filter(
+      (favourite) => favourite.imdbID !== movie.imdbID
+    );
+    // alter Liste überschreiben
+    setFavorites(newFavoriteList);
+    saveToLocalStorage(newFavoriteList);
+  };
+
   const addToFavorites = (value) => {
     // console.log(value);
     const newFavorites = [...favorites, value];
     setFavorites(newFavorites);
+    saveToLocalStorage(newFavorites);
   };
-
-  console.log("favoriteeeeeee", favorites);
 
   return (
     <>
@@ -111,7 +136,6 @@ function App() {
           <div className="col">
             <h2>Favorites Movies:</h2>
           </div>
-          
         </div>
         <div className="row nowrap ">
           {favorites.map((movie) => {
@@ -124,11 +148,12 @@ function App() {
                 <Card.Img variant="top" src={movie.Poster} />
                 <Card.Body className="d-flex align-items-center justify-content-between">
                   <Card.Title>
+                    {" "}
                     {movie.Title} ({movie.Year})
                   </Card.Title>
-                  <RiHeartAddLine
-                    onClick={() => addToFavorites(movie)}
+                  <TbHeartMinus
                     className="like-icon"
+                    onClick={() => removeFavoriteMovie(movie)}
                   />
                 </Card.Body>
               </Card>
