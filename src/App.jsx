@@ -80,7 +80,7 @@ function App() {
       </Navbar>
       <Container>
         {/* Hero section 1 */}
-        <Col className="d-flex pt-5 align-items-center ">
+        <Col className="d-flex pt-4 gap-3 align-items-center ">
           <Row>
             <h1 className="hero-text">Welcome to the Movie Verse</h1>
             <p className="hero-description">
